@@ -3,6 +3,8 @@ package com.codesnippet.springbootdemoapplication.Service;
 import com.codesnippet.springbootdemoapplication.DTOs.EmployeeDTO;
 import com.codesnippet.springbootdemoapplication.Entities.Employee;
 import com.codesnippet.springbootdemoapplication.Repository.EmployeeRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class EmployeeService implements InitializingBean, DisposableBean {
+public class EmployeeService   {
 
     private final EmployeeRepository employeeRepository;
 
@@ -22,11 +24,7 @@ public class EmployeeService implements InitializingBean, DisposableBean {
 
 
     //Using this we can Customize bean after bean creation
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("EmployeeService1 created");
 
-    }
     public EmployeeDTO getEmployee(int id) {
 
         Employee employee = employeeRepository.getEmployee(id);
@@ -35,9 +33,18 @@ public class EmployeeService implements InitializingBean, DisposableBean {
 
     }
 
+    @PostConstruct
+    public void init()
+    {
+        System.out.println("EmployeeService created");
+    }
 
-    @Override
-    public void destroy() throws Exception {
+    @PreDestroy
+    public void destry()
+    {
         System.out.println("EmployeeService destroyed");
     }
+
+
+
 }
